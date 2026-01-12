@@ -64,6 +64,30 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 - Automatically embed subtitles
 - Automatically inject media tags
 - Log in with a YouTube account to access private content
+- **AI Video Summary** (Whisper Local STT + OpenAI API) - *New*
+- **Feature-based Project Structure** - *Refactored*
+
+## Repository Migration & Git Commands
+
+이 프로젝트는 새로운 저장소로 이전되었으며, 다음과 같은 Git 명령어들이 사용되었습니다:
+
+```bash
+# 1. 원격 저장소 URL 변경 (기존 Tyrrrz/YoutubeDownloader -> chip-cookie/Down)
+git remote set-url origin https://github.com/chip-cookie/Down.git
+
+# 2. 모든 변경 사항 (리팩토링 및 신규 기능) 스테이징
+git add .
+
+# 3. 로컬 Git 사용자 정보 설정 (커밋을 위해 필요)
+git config --local user.email "antigravity@assistant.ai"
+git config --local user.name "Antigravity Assistant"
+
+# 4. 리팩토링 및 AI 요약 기능 추가 커밋
+git commit -m "Refactor project structure to feature-based and add AI summary feature"
+
+# 5. 새로운 원격 저장소의 master 브랜치로 강제 푸시
+git push -u origin master --force
+```
 
 ## Screenshots
 
