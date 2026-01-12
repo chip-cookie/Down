@@ -1,0 +1,197 @@
+<UserControl
+    x:Class="YoutubeDownloader.Features.Settings.SettingsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:settings="clr-namespace:YoutubeDownloader.Features.Settings"
+    Width="380"
+    x:DataType="settings:SettingsViewModel">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <TextBlock
+            Grid.Row="0"
+            Margin="16"
+            FontSize="19"
+            FontWeight="Light"
+            Text="설정" />
+
+        <Border
+            Grid.Row="1"
+            Padding="0,8"
+            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderThickness="0,1">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <!--  Theme  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="선호하는 UI 테마">
+                        <TextBlock DockPanel.Dock="Left" Text="테마" />
+                        <ComboBox
+                            Width="150"
+                            DockPanel.Dock="Right"
+                            ItemsSource="{Binding AvailableThemes}"
+                            SelectedItem="{Binding Theme}" />
+                    </DockPanel>
+
+                    <!--  Auto-updates  -->
+                    <DockPanel
+                        Margin="16,8"
+                        IsVisible="{OnPlatform False,
+                                               Windows=True}"
+                        LastChildFill="False">
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                <Run Text="실행 시마다 자동 업데이트를 수행합니다." />
+                                <LineBreak />
+                                <Run FontWeight="SemiBold" Text="주의:" />
+                                <Run Text="최신 유튜브 버전과의 호환성을 위해 이 옵션을 켜두는 것을 권장합니다." />
+                                <LineBreak />
+                                <Run Text=" " />
+                                <Run Text=" " />
+                            </TextBlock>
+                        </ToolTip.Tip>
+                        <TextBlock DockPanel.Dock="Left" Text="자동 업데이트" />
+                        <ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding IsAutoUpdateEnabled}" />
+                    </DockPanel>
+
+                    <!--  Persist authentication  -->
+                    <DockPanel
+                        IsVisible="{OnPlatform False,
+                                               Windows=True}"
+                        LastChildFill="False"
+                        ToolTip.Tip="재실행 시에도 로그인이 유지되도록 쿠키를 저장합니다">
+                        <TextBlock
+                            Margin="16,8"
+                            DockPanel.Dock="Left"
+                            Text="로그인 유지" />
+                        <ToggleSwitch
+                            Margin="16,8"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding IsAuthPersisted}" />
+                    </DockPanel>
+
+                    <!--  Inject language-specific audio streams  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="가능한 경우 다른 언어의 오디오 트랙을 포함합니다">
+                        <TextBlock DockPanel.Dock="Left" Text="다국어 오디오 포함" />
+                        <ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding ShouldInjectLanguageSpecificAudioStreams}" />
+                    </DockPanel>
+
+                    <!--  Inject subtitles  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="가능한 경우 자막을 포함합니다">
+                        <TextBlock DockPanel.Dock="Left" Text="자막 포함" />
+                        <ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding ShouldInjectSubtitles}" />
+                    </DockPanel>
+
+                    <!--  Inject tags  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="가능한 경우 미디어 태그(메타데이터)를 포함합니다">
+                        <TextBlock DockPanel.Dock="Left" Text="미디어 태그 포함" />
+                        <ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding ShouldInjectTags}" />
+                    </DockPanel>
+
+                    <!--  Skip existing files  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="여러 영상 다운로드 시, 이미 파일이 존재하면 건너뜁니다">
+                        <TextBlock DockPanel.Dock="Left" Text="중복 파일 건너뛰기" />
+                        <ToggleSwitch DockPanel.Dock="Right" IsChecked="{Binding ShouldSkipExistingFiles}" />
+                    </DockPanel>
+
+                    <!--  File name template  -->
+                    <DockPanel Margin="16,8" LastChildFill="False">
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                <Run Text="다운로드된 비디오의 파일명을 생성하는 템플릿입니다." />
+                                <LineBreak />
+                                <LineBreak />
+                                <Run Text="사용 가능한 토큰:" />
+                                <LineBreak />
+                                <Run Text=" " />
+                                <Run FontWeight="SemiBold" Text="$num" />
+                                <Run Text="— 목록에서의 순서" />
+                                <LineBreak />
+                                <Run Text=" " />
+                                <Run FontWeight="SemiBold" Text="$id" />
+                                <Run Text="— 비디오 ID" />
+                                <LineBreak />
+                                <Run Text=" " />
+                                <Run FontWeight="SemiBold" Text="$title" />
+                                <Run Text="— 비디오 제목" />
+                                <LineBreak />
+                                <Run Text=" " />
+                                <Run FontWeight="SemiBold" Text="$author" />
+                                <Run Text="— 비디오 게시자" />
+                            </TextBlock>
+                        </ToolTip.Tip>
+                        <TextBlock DockPanel.Dock="Left" Text="파일명 템플릿" />
+                        <TextBox
+                            Width="150"
+                            Height="20"
+                            DockPanel.Dock="Right"
+                            FontSize="13"
+                            Text="{Binding FileNameTemplate}"
+                            Theme="{DynamicResource CompactTextBox}" />
+                    </DockPanel>
+
+                    <!--  Parallel limit  -->
+                    <DockPanel
+                        Margin="16,8"
+                        LastChildFill="False"
+                        ToolTip.Tip="동시에 진행할 수 있는 최대 다운로드 수">
+                        <TextBlock DockPanel.Dock="Left" Text="동시 다운로드 수" />
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <TextBlock Margin="10,0" Text="{Binding ParallelLimit}" />
+                            <Slider
+                                Width="150"
+                                IsSnapToTickEnabled="True"
+                                Maximum="10"
+                                Minimum="1"
+                                TickFrequency="1"
+                                Value="{Binding ParallelLimit}" />
+                        </StackPanel>
+                    </DockPanel>
+
+                    <!--  OpenAI API Key  -->
+                    <DockPanel Margin="16,8" LastChildFill="False">
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                <Run Text="AI 요약 기능을 사용하려면 OpenAI API 키가 필요합니다." />
+                                <LineBreak />
+                                <Run Text="https://platform.openai.com 에서 발급받을 수 있습니다." />
+                            </TextBlock>
+                        </ToolTip.Tip>
+                        <TextBlock DockPanel.Dock="Left" Text="OpenAI API 키" />
+                        <TextBox
+                            Width="200"
+                            Height="20"
+                            DockPanel.Dock="Right"
+                            FontSize="13"
+                            PasswordChar="●"
+                            Text="{Binding OpenAiApiKey}"
+                            Theme="{DynamicResource CompactTextBox}" />
+                    </DockPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!--  Close button  -->
+        <Button
+            Grid.Row="2"
+            Margin="16"
+            HorizontalAlignment="Stretch"
+            Command="{Binding CloseCommand}"
+            Content="닫기"
+            IsCancel="True"
+            IsDefault="True"
+            Theme="{DynamicResource MaterialOutlineButton}" />
+    </Grid>
+</UserControl>

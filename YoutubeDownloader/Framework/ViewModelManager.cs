@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using YoutubeDownloader.Core.Downloading;
 using YoutubeDownloader.Core.Utils.Extensions;
-using YoutubeDownloader.ViewModels;
-using YoutubeDownloader.ViewModels.Components;
-using YoutubeDownloader.ViewModels.Dialogs;
+using YoutubeDownloader.Features.Dashboard;
+using YoutubeDownloader.Features.History;
+using YoutubeDownloader.Features.Main;
+using YoutubeDownloader.Features.Settings;
+using YoutubeDownloader.Features.Shared;
+using YoutubeDownloader.Features.VideoSummary;
 using YoutubeExplode.Videos;
 
 namespace YoutubeDownloader.Framework;
@@ -102,4 +105,20 @@ public class ViewModelManager(IServiceProvider services)
 
     public SettingsViewModel CreateSettingsViewModel() =>
         services.GetRequiredService<SettingsViewModel>();
+
+    public DownloadHistoryViewModel CreateDownloadHistoryViewModel() =>
+        services.GetRequiredService<DownloadHistoryViewModel>();
+
+    public VideoSummaryViewModel CreateVideoSummaryViewModel(
+        string filePath,
+        string title,
+        string videoId
+    )
+    {
+        var viewModel = services.GetRequiredService<VideoSummaryViewModel>();
+        viewModel.VideoFilePath = filePath;
+        viewModel.VideoTitle = title;
+        viewModel.VideoId = videoId;
+        return viewModel;
+    }
 }

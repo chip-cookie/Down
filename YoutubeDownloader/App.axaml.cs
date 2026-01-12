@@ -7,14 +7,16 @@ using Avalonia.Platform;
 using AvaloniaWebView;
 using Material.Styles.Themes;
 using Microsoft.Extensions.DependencyInjection;
+using YoutubeDownloader.Features.Dashboard;
+using YoutubeDownloader.Features.History;
+using YoutubeDownloader.Features.Main;
+using YoutubeDownloader.Features.Settings;
+using YoutubeDownloader.Features.Shared;
+using YoutubeDownloader.Features.Update;
+using YoutubeDownloader.Features.VideoSummary;
 using YoutubeDownloader.Framework;
-using YoutubeDownloader.Services;
 using YoutubeDownloader.Utils;
 using YoutubeDownloader.Utils.Extensions;
-using YoutubeDownloader.ViewModels;
-using YoutubeDownloader.ViewModels.Components;
-using YoutubeDownloader.ViewModels.Dialogs;
-using YoutubeDownloader.Views;
 
 namespace YoutubeDownloader;
 
@@ -39,6 +41,7 @@ public class App : Application, IDisposable
         // Services
         services.AddSingleton<SettingsService>();
         services.AddSingleton<UpdateService>();
+        services.AddSingleton<DownloadHistoryService>();
 
         // View models
         services.AddTransient<MainViewModel>();
@@ -49,6 +52,12 @@ public class App : Application, IDisposable
         services.AddTransient<DownloadSingleSetupViewModel>();
         services.AddTransient<MessageBoxViewModel>();
         services.AddTransient<SettingsViewModel>();
+        services.AddTransient<DownloadHistoryViewModel>();
+        services.AddTransient<VideoSummaryViewModel>();
+
+        // New AI Services
+        services.AddSingleton<WhisperService>();
+        services.AddSingleton<AiSummaryService>();
 
         _services = services.BuildServiceProvider(true);
         _settingsService = _services.GetRequiredService<SettingsService>();

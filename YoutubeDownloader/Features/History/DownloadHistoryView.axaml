@@ -1,0 +1,66 @@
+<UserControl
+    x:Class="YoutubeDownloader.Features.History.DownloadHistoryView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:history="clr-namespace:YoutubeDownloader.Features.History"
+    Width="550"
+    x:DataType="history:DownloadHistoryViewModel">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <TextBlock
+            Grid.Row="0"
+            Margin="16"
+            FontSize="19"
+            FontWeight="Light"
+            Text="다운로드 기록" />
+
+        <Border
+            Grid.Row="1"
+            Padding="0,8"
+            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderThickness="0,1">
+            <DataGrid
+                MaxHeight="400"
+                ColumnWidth="Auto"
+                HorizontalScrollBarVisibility="Auto"
+                ItemsSource="{Binding Entries}"
+                VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Title}"
+                        Header="제목" />
+                    <DataGridTextColumn
+                        Width="100"
+                        Binding="{Binding Author}"
+                        Header="채널" />
+                    <DataGridTextColumn
+                        Width="60"
+                        Binding="{Binding Format}"
+                        Header="포맷" />
+                    <DataGridTextColumn
+                        Width="130"
+                        Binding="{Binding DownloadedAt, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
+                        Header="다운로드 시간" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="16"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="0,0,8,0"
+                Command="{Binding ClearHistoryCommand}"
+                Content="기록 삭제"
+                Theme="{DynamicResource MaterialOutlineButton}" />
+            <Button
+                Command="{Binding CloseDialogCommand}"
+                Content="닫기"
+                IsCancel="True"
+                IsDefault="True"
+                Theme="{DynamicResource MaterialOutlineButton}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

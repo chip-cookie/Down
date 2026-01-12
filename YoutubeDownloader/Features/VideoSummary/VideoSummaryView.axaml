@@ -1,0 +1,143 @@
+<UserControl
+    x:Class="YoutubeDownloader.Features.VideoSummary.VideoSummaryView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:videoSummary="clr-namespace:YoutubeDownloader.Features.VideoSummary"
+    xmlns:ggml="clr-namespace:Whisper.net.Ggml;assembly=Whisper.net"
+    Width="600"
+    x:DataType="videoSummary:VideoSummaryViewModel">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <!-- Title -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="16"
+            FontSize="19"
+            FontWeight="Light"
+            Text="AI 영상 요약" />
+
+        <!-- Controls -->
+        <Border
+            Grid.Row="1"
+            Padding="16,8"
+            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Vertical" Spacing="8">
+                <!-- Video Title -->
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Text="{Binding VideoTitle}"
+                    TextTrimming="CharacterEllipsis" />
+
+                <!-- Model Selection -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock VerticalAlignment="Center" Text="모델 선택:" />
+                    <ComboBox
+                        Width="120"
+                        ItemsSource="{Binding AvailableModels}"
+                        SelectedItem="{Binding SelectedModel}" />
+                    <Button
+                        Command="{Binding DownloadModelCommand}"
+                        Content="모델 다운로드"
+                        IsEnabled="{Binding !IsDownloadingModel}"
+                        IsVisible="{Binding !IsModelReady}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="Green"
+                        IsVisible="{Binding IsModelReady}"
+                        Text="✓ 준비됨" />
+                </StackPanel>
+
+                <!-- Status -->
+                <TextBlock
+                    FontStyle="Italic"
+                    Foreground="{DynamicResource MaterialBodyBrush}"
+                    Text="{Binding StatusMessage}" />
+
+                <!-- Action Buttons -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button
+                        Command="{Binding StartProcessingCommand}"
+                        Content="요약 시작"
+                        IsEnabled="{Binding !IsProcessing}"
+                        Theme="{DynamicResource MaterialFlatButton}" />
+                    <Button
+                        Command="{Binding CancelProcessingCommand}"
+                        Content="취소"
+                        IsVisible="{Binding IsProcessing}"
+                        Theme="{DynamicResource MaterialOutlineButton}" />
+                    <ProgressBar
+                        Width="100"
+                        IsIndeterminate="True"
+                        IsVisible="{Binding IsProcessing}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Results -->
+        <Border
+            Grid.Row="2"
+            Padding="16"
+            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderThickness="0,1,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" Spacing="16">
+                    <!-- Summary -->
+                    <StackPanel IsVisible="{Binding SummaryText.Length}" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock FontWeight="SemiBold" Text="📝 요약" />
+                            <Button
+                                Command="{Binding SaveSummaryCommand}"
+                                Content="저장"
+                                FontSize="11"
+                                Padding="4,2"
+                                Theme="{DynamicResource MaterialFlatButton}" />
+                            <Button
+                                Command="{Binding CopySummaryCommand}"
+                                Content="복사"
+                                FontSize="11"
+                                Padding="4,2"
+                                Theme="{DynamicResource MaterialFlatButton}" />
+                        </StackPanel>
+                        <TextBlock
+                            Text="{Binding SummaryText}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <!-- Transcript -->
+                    <StackPanel IsVisible="{Binding TranscriptText.Length}" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock FontWeight="SemiBold" Text="📄 전체 텍스트 (자막)" />
+                            <Button
+                                Command="{Binding SaveTranscriptCommand}"
+                                Content="저장"
+                                FontSize="11"
+                                Padding="4,2"
+                                Theme="{DynamicResource MaterialFlatButton}" />
+                            <Button
+                                Command="{Binding CopyTranscriptCommand}"
+                                Content="복사"
+                                FontSize="11"
+                                Padding="4,2"
+                                Theme="{DynamicResource MaterialFlatButton}" />
+                        </StackPanel>
+                        <TextBlock
+                            MaxHeight="200"
+                            Text="{Binding TranscriptText}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Close Button -->
+        <Button
+            Grid.Row="3"
+            Margin="16"
+            HorizontalAlignment="Stretch"
+            Command="{Binding CloseDialogCommand}"
+            Content="닫기"
+            IsCancel="True"
+            IsDefault="True"
+            Theme="{DynamicResource MaterialOutlineButton}" />
+    </Grid>
+</UserControl>

@@ -28,6 +28,9 @@ public static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        // Load .env file
+        DotNetEnv.Env.Load();
+
         // Build and run the app
         var builder = BuildAvaloniaApp();
 

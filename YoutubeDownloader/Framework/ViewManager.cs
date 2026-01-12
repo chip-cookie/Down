@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using YoutubeDownloader.ViewModels;
-using YoutubeDownloader.ViewModels.Components;
-using YoutubeDownloader.ViewModels.Dialogs;
-using YoutubeDownloader.Views;
-using YoutubeDownloader.Views.Components;
-using YoutubeDownloader.Views.Dialogs;
+using YoutubeDownloader.Features.Dashboard;
+using YoutubeDownloader.Features.History;
+using YoutubeDownloader.Features.Main;
+using YoutubeDownloader.Features.Settings;
+using YoutubeDownloader.Features.Shared;
+using YoutubeDownloader.Features.VideoSummary;
 
 namespace YoutubeDownloader.Framework;
 

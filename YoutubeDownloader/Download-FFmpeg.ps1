@@ -7,6 +7,7 @@ param (
 )
 
 $ErrorActionPreference = "Stop"
+if (-not (Get-Variable "isWindows" -ErrorAction SilentlyContinue)) { $isWindows = $true }
 
 # If the platform is not specified, use the current OS/arch
 if (-not $Platform) {

@@ -13,3 +13,16 @@ obj/
 
 # Test results
 TestResults/
+
+# App Data & Settings
+Settings.dat
+cookies.dat
+
+# Secrets
+.env
+*.env
+appsettings.Development.json
+
+# Whisper Models
+YoutubeDownloader/models/
+*.bin
